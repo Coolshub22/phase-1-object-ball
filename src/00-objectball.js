@@ -120,3 +120,144 @@ function gameObject(teamName, colors, number, shoe, points, rebounds, assists, s
     }
     console.log(gameObject());
     
+    function numPointsScored(playerName) {
+        let game = gameObject();
+        for (let team in game) {
+            if (game[team].players[playerName]) {
+                return game[team].players[playerName].points;
+            }
+        }
+        return null;
+    }
+    
+    for (let team in gameData) {
+        if (gameData[team].players[playerName]) {
+            return gameData[team].players[playerName].shoeSize;
+        }
+    }
+    return null;
+
+    function teamColors(teamName) {
+        const gameData = {
+            home: {
+                teamName: "Brooklyn Nets",
+                colors: ["Black", "White"],
+            },
+            away: {
+                teamName: "Charlotte Hornets",
+                colors: ["Turquoise", "Purple"],
+            }
+        };
+    }
+
+    function teamNames() {
+        let game = gameObject();
+        return [game.home.teamName, game.away.teamName];
+    }
+
+    function playerNumbers(teamName) {
+        for (let team in gameData) {
+            if (gameData[team].teamName === teamName) {
+                return Object.values(gameData[team].players).map(player => player.number);
+            }
+        }
+        return null; // Return null if team not found
+    }
+
+    function playerStats(playerName) {
+        for (let team in gameData) {
+            if (gameData[team].players[playerName]) {
+                return gameData[team].players[playerName];
+            }
+        }
+        return null;
+    }
+
+    function bigShoeRebounds() {
+        let largestShoeSize = 0;
+        let rebounds = 0;
+    
+        for (let team in gameData) {
+            for (let player in gameData[team].players) {
+                let playerData = gameData[team].players[player];
+                if (playerData.shoeSize > largestShoeSize) {
+                    largestShoeSize = playerData.shoeSize;
+                    rebounds = playerData.rebounds;
+                }
+            }
+        }
+    
+        return rebounds;
+    }
+
+    function mostPointsScored() {
+        let topScorer = "";
+        let maxPoints = 0;
+    
+        for (let team in gameData) {
+            for (let player in gameData[team].players) {
+                let playerData = gameData[team].players[player];
+                if (playerData.points > maxPoints) {
+                    maxPoints = playerData.points;
+                    topScorer = player;
+                }
+            }
+        }
+    }
+
+
+    function winningTeam() {
+        let teamPoints = {};
+
+    for (let team in gameData) {
+        let totalPoints = 0;
+        for (let player in gameData[team].players) {
+            totalPoints += gameData[team].players[player].points;
+        }
+        teamPoints[gameData[team].teamName] = totalPoints;
+    }
+
+    return teamPoints["Brooklyn Nets"] > teamPoints["Charlotte Hornets"]
+        ? "Brooklyn Nets"
+        : "Charlotte Hornets";
+}
+
+    function playerWithLongestName() {
+        let longestName = "";
+
+        for (let team in gameData) {
+            for (let player in gameData[team].players) {
+                if (player.length > longestName.length) {
+                    longestName = player;
+                }
+            }
+        }
+    
+        return longestName;
+    }
+
+    function doesLongNameStealATon() {
+        let longestName = "";
+    let mostSteals = 0;
+    let longestNameSteals = 0;
+
+    for (let team in gameData) {
+        for (let player in gameData[team].players) {
+            let steals = gameData[team].players[player].steals;
+
+            // Find player with longest name
+            if (player.length > longestName.length) {
+                longestName = player;
+                longestNameSteals = steals;
+            }
+
+            // Track the highest number of steals
+            if (steals > mostSteals) {
+                mostSteals = steals;
+            }
+        }
+    }
+
+    return longestNameSteals === mostSteals;
+}
+
